@@ -6,11 +6,9 @@
 template<typename T>
 struct QueueNode {
     public:
-        QueueNode() : value(value) {
+        QueueNode() {
             next.store(NULL, std::memory_order_relaxed);
         }
-    private:
-        T value;
         std::atomic<QueueNode*> next;
-
+        T value;
 };
