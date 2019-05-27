@@ -13,6 +13,8 @@ struct Message {
 
 struct ButtonMessage {
     const std::string topic() {
-        return "ButttonMessage"
+        return "ButttonMessage";
     }
+
+
 }; 
