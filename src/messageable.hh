@@ -2,7 +2,7 @@
 
 #include <string>
 #include "queue/mpsc_queue.hh"
-#include "message.hh"
+#include "packet.hh"
 #include <thread>
 #include <unordered_map>
 #include <iterator>
@@ -18,12 +18,12 @@ class Messageable {
         void unsubscribe(const Messageable& target);
         void run_periodic();
         const std::string name;
-        virtual void process_message(const Message& msg);
+        virtual void process_message(const Packet& packet); // here ull wanna 
     private:
         bool is_running;
         std::unordered_map<const std::string, Messageable> subscriptions;
         std::thread execution_thread;
-        MpscQueue<Message> mailbox;
+        MpscQueue<Packet> mailbox;
 
 
         

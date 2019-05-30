@@ -3,10 +3,11 @@
 
 class Packet {
     public:
-        explicit Packet::Packet(const std::unordered_map<std::string, std::string> payload) 
+        explicit Packet::Packet(const std::unordered_map<std::string, std::string>& payload) 
             : _payload(payload), topic(_payload["topic"]), id((int8_t) std::atoi(_payload["id"].c_str())) {}
         std::string topic; 
         int8_t id;
+        std::unordered_map<std::string, std::string> payload() { return _payload; }
     private:
         std::unordered_map<std::string, std::string> _payload;
 };
