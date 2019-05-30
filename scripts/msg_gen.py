@@ -14,7 +14,7 @@ def write_packet_struct(
     [member_vals] -- defaults to intialize the struct members to
 
     """
-    with open(f"packets.{ending}") as output:
+    with open(f"packets.{ending}", "a") as output:
         output.write(f"struct {packet_name}Packet {{\n")
         output.write(f"\tpublic:\n")
         for type, name in zip(member_types, member_names):
@@ -39,7 +39,7 @@ def write_packet_struct(
         output.write(f"\t\t\treturn {packet_name}Packet(")
         for i in range(num_args_idx):
             output.write(f"payload[{ctor_names[i]}], ")
-        output.write(f"payload[{ctor_names[num_args_idx]}]);\n")
+        output.write(f"payload[\"{ctor_names[num_args_idx]}\"]);\n")
         output.write("\t\t}")
         output.write("\n")
 
@@ -48,24 +48,26 @@ def write_packet_struct(
         output.write("\t\t\ttd::unordered_map<std::string, std::string> payload;\n")
         for name in member_names:
             output.write(f"\t\t\tpayload[\"{name}\"] = {name};\n")
-        output.write(f"\t\t\tpayload[\"id\"] = std::to_string((int8_t) PacketType::{packet_name});\n";
+        output.write(f"\t\t\tpayload[\"id\"] = std::to_string((int8_t) PacketType::{packet_name});\n")
         output.write(f"\t\t\treturn Packet(payload);\n\t\t}}")
+        output.write("\n}\n")
 
-def write_packet_type_struct(output_dir, packet_names):
+def write_packet_type_enum(packet_names):
     enum_header = 'enum class : int8_t {\n'
     body_string = ''
-    for name in range(len(packet_names) - 1):
-        body_string+='\t' + name + ',\n'
+    for i in range(len(packet_names) - 1):
+        body_string+='\t' + packet_names[i] + ',\n'
     body_string+='\t' + packet_names[len(packet_names) - 1] + '\n'
     footer = '};'
-    with open(f"packets.{ending}") as output:
+    with open(f"packets.{ending}", "w") as output:
         output.write('\n')
         output.write(enum_header)
         output.write(body_string)
-        output.write(footer)
+        output.write(footer + '\n')
 
     
 
-    
 
+write_packet_type_enum(['ff', 'gdsf'])
 
+write_packet_struct('f', 'fy', ['int', 'int'], ['gfsday', 'fdsdf'], ['std::string', 'fsdfds'], ['hie', 'ffff'])
